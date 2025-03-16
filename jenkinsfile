@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello'
+                git branch: 'main', url: 'https://github.com/Maswi1412/mindcircuit15d.git'
+
+            }
+        }
+        stage('Hello maven') {
+            steps {
+                echo ' World'
+                sh 'mvn clean install'
+
+            }
+        }
+        
+        stage('Hello tomcat') {
+            steps {
+                echo 'HelloWorld'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://ec2-44-204-25-16.compute-1.amazonaws.com:8080/')], contextPath: 'paris', war: '**/*.war'
+            }
+        }
+    }
+}
